@@ -203,7 +203,7 @@ public:
         nDefaultPort = 31878;       // <--Einsteinium: OK
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock("NY Times 19/Feb/2014 North Korea Arrests Christian Missionary From Australia", CScript() << OP_DUP << OP_HASH160 << ParseHex("1cec44c9f9b769ae08ebf9d694c7611a16edf615") << OP_EQUALVERIFY << OP_CHECKSIG, 1494792000, 2231829, 0x1e0ffff0, 1, 50 * COIN); // <--Einsteinium: OK
+        genesis = CreateGenesisBlock("NY Times 19/Feb/2014 North Korea Arrests Christian Missionary From Australia", CScript() << OP_DUP << OP_HASH160 << ParseHex("1cec44c9f9b769ae08ebf9d694c7611a16edf615") << OP_EQUALVERIFY << OP_CHECKSIG, 1494757042, 2231829, 0x1e0ffff0, 1, 50 * COIN); // <--Einsteinium: OK
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0xa4271888b5e60092c3e7183a76d454741e9a7a55f2b4afbe574615829e406bee"));   // <--Einsteinium: OK
         assert(genesis.hashMerkleRoot == uint256S("0xb3e47e8776012ee4352acf603e6b9df005445dcba85c606697f422be3cc26f9b"));   // <--Einsteinium: OK
@@ -234,7 +234,7 @@ public:
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
                 ( 0, uint256S("0xa4271888b5e60092c3e7183a76d454741e9a7a55f2b4afbe574615829e406bee")), // <--Einsteinium: OK
-            1494792000,                                                                               // <--Einsteinium: OK
+            1494757042,                                                                               // <--Einsteinium: OK
             0,                                                                                        // <--Einsteinium: OK
             1000                                                                                      // <--Einsteinium: OK
         };
