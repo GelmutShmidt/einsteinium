@@ -1730,60 +1730,43 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
-// PM-Tech: To ease things up let's use EMC2 specifications for unit tests and Litecoin specifications for regression tests
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
     CAmount nSubsidy = 0;
-    if (consensusParams.fPowAllowMinDifficultyBlocks)
-    {
-        int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
-        // Force block reward to zero when right shift is undefined.
-        if (halvings >= 64)
-            return 0;
+    
+	int StartOffset;
+	int WormholeStartBlock;
+	int mod = nHeight % 36000;
+	if (mod != 0) mod = 1;
+	int epoch = (nHeight / 36000) + mod;
 
-        nSubsidy = 50 * COIN;
-        // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
-        nSubsidy >>= halvings;
-            return nSubsidy;
-    }
-    else
-    {
-        nSubsidy = 0;
+	long wseed = 5299860 * epoch; // Discovered: 1952, Atomic number: 99 Melting Point: 860
 
-        int StartOffset;
-        int WormholeStartBlock;
-        int mod = nHeight % 36000;
-        if (mod != 0) mod = 1;
-        int epoch = (nHeight / 36000) + mod;
+	StartOffset = generateMTRandom(wseed, 35820);
+	WormholeStartBlock = StartOffset + ((epoch - 1)  * 36000); // Wormholes start from Epoch 2
 
-        long wseed = 5299860 * epoch; // Discovered: 1952, Atomic number: 99 Melting Point: 860
-
-        StartOffset = generateMTRandom(wseed, 35820);
-        WormholeStartBlock = StartOffset + ((epoch - 1)  * 36000); // Wormholes start from Epoch 2
-
-        if(epoch > 1 && epoch < 148 && nHeight >= WormholeStartBlock && nHeight < WormholeStartBlock + 180)
-        {
-            nSubsidy = 2973 * COIN;
-        }
-        else
-        {
-        if      (nHeight == 0)        nSubsidy = 50 * COIN; // <-- PM-Tech: add genesis tx here for proper unit tests
-        else if (nHeight == 1)        nSubsidy = 10747 * COIN;
-        else if (nHeight <= 72000)    nSubsidy = 1024 * COIN;
-        else if (nHeight <= 144000)   nSubsidy = 512 * COIN;
-        else if (nHeight <= 288000)   nSubsidy = 256 * COIN;
-        else if (nHeight <= 432000)   nSubsidy = 128 * COIN;
-        else if (nHeight <= 576000)   nSubsidy = 64 * COIN;
-        else if (nHeight <= 864000)   nSubsidy = 32 * COIN;
-        else if (nHeight <= 1080000)  nSubsidy = 16 * COIN;
-        else if (nHeight <= 1584000)  nSubsidy = 8 * COIN;
-        else if (nHeight <= 2304000)  nSubsidy = 4 * COIN;
-        else if (nHeight <= 5256000)  nSubsidy = 2 * COIN;
-        else if (nHeight <= 26280000) nSubsidy = 1 * COIN;
-        else nSubsidy = 0; // <-- PM-Tech: don't leave eternity undefined here
-        }
-    }
-        return nSubsidy;
+	if(epoch > 1 && epoch < 148 && nHeight >= WormholeStartBlock && nHeight < WormholeStartBlock + 180)
+	{
+		nSubsidy = 2973 * COIN;
+	}
+	else
+	{	
+		if 		(nHeight == 1)        nSubsidy = 10747 * COIN;
+		else if (nHeight <= 72000)    nSubsidy = 1024 * COIN;
+		else if (nHeight <= 144000)   nSubsidy = 512 * COIN;
+		else if (nHeight <= 288000)   nSubsidy = 256 * COIN;
+		else if (nHeight <= 432000)   nSubsidy = 128 * COIN;
+		else if (nHeight <= 576000)   nSubsidy = 64 * COIN;
+		else if (nHeight <= 864000)   nSubsidy = 32 * COIN;
+		else if (nHeight <= 1080000)  nSubsidy = 16 * COIN;
+		else if (nHeight <= 1584000)  nSubsidy = 8 * COIN;
+		else if (nHeight <= 2304000)  nSubsidy = 4 * COIN;
+		else if (nHeight <= 5256000)  nSubsidy = 2 * COIN;
+		else if (nHeight <= 26280000) nSubsidy = 1 * COIN;
+		else nSubsidy = 0;
+	}
+	
+	return nSubsidy;
 }
 
 bool IsInitialBlockDownload()
