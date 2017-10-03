@@ -1734,18 +1734,21 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
     CAmount nSubsidy = 0;
     
+	int epochDuration = 5;
+	int wormholeDuration = 2;
+	
 	int StartOffset;
 	int WormholeStartBlock;
-	int mod = nHeight % 36000;
+	int mod = nHeight % epochDuration;
 	if (mod != 0) mod = 1;
-	int epoch = (nHeight / 36000) + mod;
+	int epoch = (nHeight / epochDuration) + mod;
 
 	long wseed = 5299860 * epoch; // Discovered: 1952, Atomic number: 99 Melting Point: 860
 
-	StartOffset = generateMTRandom(wseed, 35820);
-	WormholeStartBlock = StartOffset + ((epoch - 1)  * 36000); // Wormholes start from Epoch 2
+	StartOffset = generateMTRandom(wseed, epochDuration - wormholeDuration);
+	WormholeStartBlock = StartOffset + ((epoch - 1)  * epochDuration); // Wormholes start from Epoch 2
 
-	if(epoch > 1 && epoch < 148 && nHeight >= WormholeStartBlock && nHeight < WormholeStartBlock + 180)
+	if(epoch > 1 && epoch < 148 && nHeight >= WormholeStartBlock && nHeight < WormholeStartBlock + wormholeDuration)
 	{
 		nSubsidy = 2973 * COIN;
 	}
