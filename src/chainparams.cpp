@@ -169,13 +169,13 @@ public:
         consensus.nMajorityEnforceBlockUpgrade = 180;   // <-- Einsteinium: quicker on Testnet
         consensus.nMajorityRejectBlockOutdated = 228;   // <-- Einsteinium: quicker on Testnet
         consensus.nMajorityWindow = 240;                // <-- Einsteinium: quicker on Testnet
-        consensus.BIP34Height = -1;
+        consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("");
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.CharityPubKey = "02bde17927d1340113fa6f795cac7ffee4c9364ba55f7e7b97413b48e69817baa6"; // mjY2nBQ78Ctmoq2AvzM3GcNuJUxRoRziiW
         consensus.nPowTargetTimespan = 1;  // <-- Einsteinium: OK
         consensus.nPowTargetSpacing = 1;   // <-- Einsteinium: OK
-        consensus.fPowAllowMinDifficultyBlocks = true;
+        consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
