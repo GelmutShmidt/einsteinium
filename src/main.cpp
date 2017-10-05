@@ -1748,7 +1748,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 	StartOffset = generateMTRandom(wseed, epochDuration - wormholeDuration);
 	WormholeStartBlock = StartOffset + ((epoch - 1)  * epochDuration); // Wormholes start from Epoch 2
 
-	if(epoch > 1 && epoch < 148 && nHeight >= WormholeStartBlock && nHeight < WormholeStartBlock + wormholeDuration)
+	if(epoch > 1 && epoch < 8 /*148*/ && nHeight >= WormholeStartBlock && nHeight < WormholeStartBlock + wormholeDuration)
 	{
 		nSubsidy = 2973 * COIN;
 	}
